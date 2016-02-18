@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Machine Learning in the Browser</title>
+    <title>Introduction to Elasticsearch</title>
 
     <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
     <meta name="author" content="Hakim El Hattab">
@@ -71,9 +71,16 @@
 <!--Er wird dabei beantworten, wann eine Datenbank wie Elasticsearch Sinn machen kann und wann eher nicht.-->
 <!--Er geht auch auf die Unterschiede zu einer klassischen Datenbank ein und ob mit Elasticsearch vollständig auf eine solche verzichtet werden kann.-->
 
-
-
         <section>
+<!--
+            PREPARATION
+            cd Development/elastic/elasticsearch-2.1.1
+            ./bin/elasticsearch
+            cd Development/elastic/kibana-4.3.1-darwin-x64/
+            ./bin/kibana
+            open http://localhost:9200/_plugin/kopf/#!/cluster
+-->
+
             <h2>Introduction to Elasticsearch</h2>
             <p>
                 <small><a href="http://zeigermann.eu">Oliver Zeigermann</a> / <a href="http://twitter.com/djcordhose">@DJCordhose</a>
@@ -90,8 +97,9 @@
             <ul>
                 <li class="fragment"><a href="https://www.elastic.co/products/elasticsearch" target="_blank">Elasticsearch</a>
                     <ul>
-                        <li class="fragment">
-                        <li class="fragment">
+                        <li class="fragment">Search and Analytics Engine
+                        <li class="fragment">Indexes and stores structured or unstructured data
+                        <li class="fragment">Offers query language to search or aggregate data
                     </ul>
                 </li>
                 <li class="fragment"><a href="https://www.elastic.co/products/logstash" target="_blank">Logstash</a>
@@ -102,8 +110,8 @@
                 </li>
                 <li class="fragment"><a href="https://www.elastic.co/products/kibana" target="_blank">Kibana</a>
                     <ul>
-                        <li class="fragment">
-                        <li class="fragment">
+                        <li class="fragment">interactive querying
+                        <li class="fragment">visualization (in dashboards)
                     </ul>
                 </li>
             </ul>
@@ -121,41 +129,297 @@
 
         <section>
             <h2>Elasticsearch</h2>
+        </section>
+
+        <section>
+            <h2>Kopf Plugin</h2>
             <ul>
-                <li class="fragment">
+                <li class="fragment">Elasticsearch allows for
+                    <a target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/intro.html">
+                    plugins</a> to enhance core functionality
+                <li class="fragment"><a href="https://github.com/lmenezes/elasticsearch-kopf" target="_blank">Kopf</a>
+                allows for easy administration and introspection
+                <li class="fragment">Installation
+                    <ul>
+                        <li class="fragment">
+                            <a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/installation.html" target="_blank">
+                                Guide</a>
+                        <li class="fragment"><code>sudo bin/plugin install lmenezes/elasticsearch-kopf/2.x</code>
+                        <li class="fragment"><code>open http://localhost:9200/_plugin/kopf</code>
+                    </ul>
+                </li>
             </ul>
+        </section>
+
+        <section>
+            <h2>Introspecting Elasticsearch using Kopf</h2>
+            <h3>Looking at physical entities</h3>
+        </section>
+
+        <section>
+            <h3>Cluster</h3>
+            <p>Group of nodes grouped under cluster name</p>
+            <img src="screenshot_cluster.png" height="400">
+            <p>There always is one master node</p>
+        </section>
+
+        <section>
+            <h3>Node</h3>
+            <p>Simple Elasticsearch instance</p>
+            <img src="screenshot_nodes.png" height="400">
+            <p>Coordinates access to shards</p>
+        </section>
+
+        <section>
+            <h3>Experiment: adding and removing nodes</h3>
+            <p class="fragment">there always has to be one master</p>
+            <p class="fragment">shards do not like it when they are not mirrored on failover node</p>
+            <ul>
+                <li class="fragment">start three nodes
+                <li class="fragment">watch them starting up in kopf
+                <li class="fragment">stop master node
+                <li class="fragment">see another one appointed to master node in terminal
+                <li class="fragment">stop another node
+                <li class="fragment">watch kopf reporting problem with shards
+            </ul>
+        </section>
+
+        <section>
+            <h3>State after experiment</h3>
+            <p>new master, but also some unassigned shards</p>
+            <img src="screenshot-only-primary-shard.png" height="400">
+            <p><small>(only if you are lucky, if you kill two nodes there might some shards are not even accessible)</small></p>
+        </section>
+
+        <section>
+            <h3>Index</h3>
+            <p>logical grouping over shards</p>
+            <img src="screenshot_indices.png" height="400">
+        </section>
+
+        <section>
+            <h3>Shard</h3>
+            <p>part of an index</p>
+            <p>can be distributed over many nodes for failover or performance</p>
+            <img src="screenshot_shards.png" height="300">
+            <p>technically a Lucene index</p>
+        </section>
+
+        <section>
+            <h2>Logical structures</h2>
+            <h3 class="fragment">Comparing to relational DB</h3>
+            <table>
+                <tr class="fragment">
+                    <th>Relational Database</th>
+                    <td>Databases</td>
+                    <td>Tables</td>
+                    <td>Rows</td>
+                    <td>Columns</td>
+                </tr>
+                <tr class="fragment">
+                    <th>Elasticsearch</th>
+                    <td>Indices</td>
+                    <td>Types</td>
+                    <td>Documents</td>
+                    <td>Fields</td>
+                </tr>
+                <tr></tr>
+            </table>
+        </section>
+
+        <section>
+            <h3>Example</h3>
+            <pre><code data-trim>
+PUT /megacorp/employee/1
+{
+    "first_name" : "John",
+    "last_name" :  "Smith",
+    "age" :        25
+}
+            </code></pre>
+            <ul>
+                <li class="fragment"><em>index</em>: megacorp
+                <li class="fragment"><em>type</em>: employee
+                <li class="fragment"><em>document</em>: &lt;json body>
+                <li class="fragment"><em>field(s)</em>: age
+            </ul>
+        </section>
+
+        <section>
+            <h3>Sense - Making low level queries</h3>
+            <p>REST calls returning JSON</p>
+            <a href="http://localhost:5601/app/sense" target="_blank">
+                <img src="screenshot_sense.png" height="500">
+            </a>
+        </section>
+
+        <section>
+            <h2>Can Elasticsearch replaced my relational database?</h2>
+            <ul>
+                <li class="fragment">You might not always need full text indices
+                <li class="fragment">Writing (indexing) takes a lot of time
+                <li class="fragment">Relational databases are great when you need joins
+                <li class="fragment"><a target="_blank" href="https://aphyr.com/posts/323-call-me-maybe-elasticsearch-1-5-0">
+                Elasticsearch might lose data</a>
+                <ul>
+                    <li class="fragment">network partitions into two intersecting components
+                    <li class="fragment">two nodes failing around the same time
+                    <li class="fragment">even more scenarios
+                </ul>
+                </li>
+                <li class="fragment"><a target="_blank"
+                       href="https://www.elastic.co/blog/found-uses-of-elasticsearch">
+                    What Elastic says
+                </a>
+            </ul>
+            <p class="fragment"><small>Recommendation: Use when data does not change over time and is used only for searching. Use as secondary storage. Data might get lost.</small></p>
         </section>
 
         <section>
             <h2>Logstash</h2>
+            <h3>How to get data into Elasticsearch</h3>
             <ul>
-                <li class="fragment">
+                <li class="fragment">you configure all this in a single import file
+                <li class="fragment">you run logstash using that file
+                <li class="fragment">e.g. <code>./bin/logstash -f expo2009_airline.conf</code>
+                <li class="fragment">options might be pandas or Graylog or custom code
             </ul>
         </section>
 
         <section>
+            <h2>Looking at the conf file</h2>
+            <p><a href="code/expo2009_airline.conf" target="_blank">code/expo2009_airline.conf</a></p>
+        </section>
+
+        <section>
+            <h2>Logstash - Input</h2>
+            <pre><code data-trim>
+input {
+      file {
+          path => "ml/raw_data/expo2009_airline/2001.csv"
+          type => "flight"
+          start_position => "beginning"
+	  codec => plain {
+              charset => "ISO-8859-1"
+          }
+      }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Logstash - Output</h2>
+            <pre><code data-trim>
+output {
+    elasticsearch {
+        action => "index"
+        hosts => "localhost:9200"
+        index => "expo2009_airline"
+        workers => 1
+    }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Filtering - CSV</h2>
+            <p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-csv.html">Filtering CSV</a></p>
+            <pre><code data-trim>
+filter {
+    csv {
+        columns => ["Year","Month","DayofMonth","DayOfWeek",
+                "DepTime","CRSDepTime","ArrTime","CRSArrTime",
+                "UniqueCarrier","FlightNum","TailNum","ActualElapsedTime",
+                "CRSElapsedTime","AirTime","ArrDelay","DepDelay","Origin",
+                "Dest","Distance","TaxiIn","TaxiOut","Cancelled",
+                "CancellationCode","Diverted","CarrierDelay","WeatherDelay",
+                "NASDelay","SecurityDelay","LateAircraftDelay"]
+        separator => ","
+    }
+}
+            </code></pre>
+        </section>
+       <section>
+            <h2>Filtering - Adding a Timestamp</h2>
+            <p>Having a timestamp (field: <code>@timestamp</code>) makes data especially useful for Elasticsearch</p>
+            <pre><code data-trim>
+filter {
+    mutate { add_field => ["timestamp",
+               "%{Year}-%{Month}-%{DayofMonth};%{CRSDepTime}"] }
+    date {
+            match => ["timestamp", "YYYY-MM-dd;HHmm"]
+            target => "@timestamp"
+    }
+}
+            </code></pre>
+        </section>
+
+       <section>
+            <h2>Filtering - Add types (optional)</h2>
+            <p>Adding types makes querying faster and gives additional info for queries</p>
+            <pre><code data-trim>
+mutate { convert => { "ActualElapsedTime" => "integer" } }
+mutate { convert => { "CRSElapsedTime" => "integer" } }
+mutate { convert => { "ArrDelay" => "integer" } }
+mutate { convert => { "DepDelay" => "integer" } }
+mutate { convert => { "AirTime" => "integer" } }
+mutate { convert => { "Distance" => "integer" } }
+mutate { convert => { "TaxiIn" => "integer" } }
+mutate { convert => { "TaxiOut" => "integer" } }
+mutate { convert => { "Cancelled" => "boolean" } }
+mutate { convert => { "Diverted" => "boolean" } }
+            </code></pre>
+        </section>
+
+
+        <section>
             <h2>Kibana</h2>
             <ul>
-                <li class="fragment">
+                <li class="fragment">generic frontend
+                <li class="fragment">browser based
+                <li class="fragment">allows for dashboards
+                <li class="fragment">also allows to make arbitrary adhoc queries
             </ul>
+        </section>
+
+        <section>
+            <h3>Discover Data</h3>
+            <p>using adhoc queries</p>
+            <a href="http://localhost:5601/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:'2001-08-31T22:00:00.000Z',mode:quick,to:'2001-09-30T22:00:00.000Z'))&_a=(columns:!(Cancelled,Origin,Dest,UniqueCarrier),filters:!(),index:expo2009_airline,interval:h,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',desc),vis:(aggs:!((params:(field:ArrDelay,orderBy:'2',size:20),schema:segment,type:terms),(id:'2',schema:metric,type:count)),type:histogram))&indexPattern=expo2009_airline&type=histogram" target="_blank">
+                <img src="screenshot_kibana_discover.png">
+            </a>
+        </section>
+
+        <section>
+            <h3>Flights Dashboard #1</h3>
+            <a href="http://localhost:5601/app/kibana#/dashboard/Flights" target="_blank">
+                <img src="screenshot_kibana_dashboard.png" height="400">
+            </a>
+            <p>Clicks trigger requests, responses update grafics</p>
+        </section>
+
+        <section>
+            <h3>Flights Dashboard #2</h3>
+            <h4>Dumping 400,000 data sets</h4>
+            <a href="code/dc-911-es.html" target="_blank">
+                <img src="screenshot_dc.png" height="400">
+            </a>
+            <p>All data offline, filtered in browser</p>
         </section>
 
         <section>
             <h2>Wrap-Up</h2>
             <ul>
-                <li class="fragment">
+                <li class="fragment">Elasticsearch is a search engine based on Lucence
+                <li class="fragment">interface are REST calls returning JSON
+                <li class="fragment">works in a cluster for failsafety and performance
+                <li class="fragment">especially good as secondary datastore
+                <li class="fragment">very good with timelines
+                <li class="fragment">logstash can help importing data into Elasticsearch
+                <li class="fragment">Kibana can be used to explore and visualize your data
+                <li class="fragment">Kibana allwos for generic dashboards
+                <li class="fragment">you can create your own (visual) applications using data from Elasticsearch
             </ul>
         </section>
 
-        <section>
-            <h2>Resources</h2>
-            <ul>
-                <li><a target="_blank"
-                       href="">
-
-                </a>
-            </ul>
-        </section>
         <section>
             <h1>Thank you!</h1>
 
