@@ -170,26 +170,26 @@
             <p>Coordinates access to shards</p>
         </section>
 
-        <section>
-            <h3>Experiment: adding and removing nodes</h3>
-            <p class="fragment">there always has to be one master</p>
-            <p class="fragment">shards do not like it when they are not mirrored on failover node</p>
-            <ul>
-                <li class="fragment">start three nodes
-                <li class="fragment">watch them starting up in kopf
-                <li class="fragment">stop master node
-                <li class="fragment">see another one appointed to master node in terminal
-                <li class="fragment">stop another node
-                <li class="fragment">watch kopf reporting problem with shards
-            </ul>
-        </section>
+        <!--<section>-->
+            <!--<h3>Experiment: adding and removing nodes</h3>-->
+            <!--<p class="fragment">there always has to be one master</p>-->
+            <!--<p class="fragment">shards do not like it when they are not mirrored on failover node</p>-->
+            <!--<ul>-->
+                <!--<li class="fragment">start three nodes-->
+                <!--<li class="fragment">watch them starting up in kopf-->
+                <!--<li class="fragment">stop master node-->
+                <!--<li class="fragment">see another one appointed to master node in terminal-->
+                <!--<li class="fragment">stop another node-->
+                <!--<li class="fragment">watch kopf reporting problem with shards-->
+            <!--</ul>-->
+        <!--</section>-->
 
-        <section>
-            <h3>State after experiment</h3>
-            <p>new master, but also some unassigned shards</p>
-            <img src="screenshot-only-primary-shard.png" height="400">
-            <p><small>(only if you are lucky, if you kill two nodes there might some shards are not even accessible)</small></p>
-        </section>
+        <!--<section>-->
+            <!--<h3>State after experiment</h3>-->
+            <!--<p>new master, but also some unassigned shards</p>-->
+            <!--<img src="screenshot-only-primary-shard.png" height="400">-->
+            <!--<p><small>(only if you are lucky, if you kill two nodes there might some shards are not even accessible)</small></p>-->
+        <!--</section>-->
 
         <section>
             <h3>Index</h3>
