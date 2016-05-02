@@ -82,6 +82,7 @@
 -->
 
             <h2>Introduction to Elasticsearch</h2>
+            <h4>md-devdays.de 2016</h4>
             <p>
                 <small><a href="http://zeigermann.eu">Oliver Zeigermann</a> / <a href="http://twitter.com/djcordhose">@DJCordhose</a>
                 </small>
@@ -89,6 +90,22 @@
             <!--http://www.qr-code-generator.com-->
             <img src="2016_devcon_qr.jpg" height="200px">
             <p><small><a href="http://bit.ly/1TtgKNx">http://bit.ly/1TtgKNx</a></small></p>
+
+        </section>
+
+        <section>
+            <p>
+                <a target="_blank" href="https://entwickler.de/press/javascript-fuer-java-entwickler-4-168852.html">
+                    <img src="intro/s-k_JavaScript_fuer_JavaEntwickler_Auflage3_2400x_rgb-220x353@2x.jpg" width="200">
+                </a>
+                <a target="_blank" href="http://entwickler.de/press/JavaScript-und-TypeScript-fuer-C-Entwickler-174972">
+                    <img src="intro/javascript_und_typescript_1400px.jpg" width="200" >
+                </a>
+                <a target="_blank" href="http://www.dpunkt.de/buecher/5542/9783864903274-react-12388.html">
+                    <img src="intro/react.jpg" width="200">                </a>
+            </p>
+            <img src="intro/SF-Olli.jpg" height="200" align="right">
+            <img src="intro/embarc13.png" height="200" align="left">
 
         </section>
 
@@ -254,7 +271,7 @@ PUT /megacorp/employee/1
         </section>
 
         <section>
-            <h2>Can Elasticsearch replaced my relational database?</h2>
+            <h3>Can Elasticsearch replace my relational database?</h3>
             <ul>
                 <li class="fragment">You might not always need full text indices
                 <li class="fragment">Writing (indexing) takes a lot of time
@@ -271,9 +288,19 @@ PUT /megacorp/employee/1
                        href="https://www.elastic.co/blog/found-uses-of-elasticsearch">
                     What Elastic says
                 </a>
+                    <ul class="fragment">
+                        <li>Search
+                        <li>Analytics
+                    </ul>
+                </li>
             </ul>
-            <p class="fragment"><small>Recommendation: Use when data does not change over time and is used only for searching. Use as secondary storage. Data might get lost.</small></p>
         </section>
+
+        <section>
+            <h2>Recommendation</h2>
+            <p class="fragment">Use ElasticSearch when data does not change over time and is used only for searching. Use as secondary storage. Data might get lost.</p>
+        </section>
+
 
         <section>
             <h2>Logstash</h2>
@@ -282,7 +309,14 @@ PUT /megacorp/employee/1
                 <li class="fragment">you configure all this in a single import file
                 <li class="fragment">you run logstash using that file
                 <li class="fragment">e.g. <code>./bin/logstash -f expo2009_airline.conf</code>
-                <li class="fragment">options might be pandas or Graylog or custom code
+                <li class="fragment">options:
+                    <ul class="fragment">
+                        <li>Pandas
+                        <li>Graylog
+                        <li>custom code
+                    </ul>
+                </li>
+
             </ul>
         </section>
 
