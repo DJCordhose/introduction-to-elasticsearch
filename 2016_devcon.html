@@ -395,7 +395,7 @@ output {
         </section>
         <section>
             <h2>Filtering - CSV</h2>
-            <p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-csv.html">Filtering CSV</a></p>
+            <div class="fragment">
             <pre><code data-trim>
 filter {
     csv {
@@ -410,10 +410,13 @@ filter {
     }
 }
             </code></pre>
+            <p><small><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-csv.html">Filtering CSV</a></small></p>
+                </div>
         </section>
        <section>
             <h2>Filtering - Adding a Timestamp</h2>
-            <p>Having a timestamp (field: <code>@timestamp</code>) makes data especially useful for Elasticsearch</p>
+           <p class="fragment">Having a timestamp (field: <code>@timestamp</code>) makes data especially useful for Elasticsearch</p>
+           <div class="fragment">
             <pre><code data-trim>
 filter {
     mutate { add_field => ["timestamp",
@@ -424,11 +427,14 @@ filter {
     }
 }
             </code></pre>
+               </div>
         </section>
 
        <section>
             <h2>Filtering - Add types (optional)</h2>
-            <p>Adding types makes querying faster and gives additional info for queries</p>
+           <p class="fragment">Adding types makes querying faster and gives additional info for queries</p>
+           <div class="fragment">
+
             <pre><code data-trim>
 mutate { convert => { "ActualElapsedTime" => "integer" } }
 mutate { convert => { "CRSElapsedTime" => "integer" } }
@@ -441,8 +447,8 @@ mutate { convert => { "TaxiOut" => "integer" } }
 mutate { convert => { "Cancelled" => "boolean" } }
 mutate { convert => { "Diverted" => "boolean" } }
             </code></pre>
+               </div>
         </section>
-
 
         <section>
             <h2>Kibana</h2>
