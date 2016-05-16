@@ -75,7 +75,7 @@
 <!--
             PREPARATION
             cd Development/elastic/elasticsearch-2.1.1
-            ./bin/elasticsearch
+            ./start.sh
             cd Development/elastic/kibana-4.3.1-darwin-x64/
             ./bin/kibana
             open http://localhost:9200/_plugin/kopf/#!/cluster
@@ -113,22 +113,22 @@
             <h2>Contents</h2>
             <ul>
                 <li class="fragment"><a href="https://www.elastic.co/products/elasticsearch" target="_blank">Elasticsearch</a>
-                    <ul>
-                        <li class="fragment">Search and Analytics Engine
-                        <li class="fragment">Indexes and stores structured or unstructured data
-                        <li class="fragment">Offers query language to search or aggregate data
+                    <ul class="fragment">
+                        <li>Search and Analytics Engine
+                        <li>Indexes and stores structured or unstructured data
+                        <li>Offers query language to search or aggregate data
                     </ul>
                 </li>
                 <li class="fragment"><a href="https://www.elastic.co/products/logstash" target="_blank">Logstash</a>
-                    <ul>
-                        <li class="fragment">process data and store into Elasticsearch
-                        <li class="fragment">Ruby based import description
+                    <ul class="fragment">
+                        <li>process data and store into Elasticsearch
+                        <li>Ruby based import description
                     </ul>
                 </li>
                 <li class="fragment"><a href="https://www.elastic.co/products/kibana" target="_blank">Kibana</a>
-                    <ul>
-                        <li class="fragment">interactive querying
-                        <li class="fragment">visualization (in dashboards)
+                    <ul class="fragment">
+                        <li>interactive querying
+                        <li>visualization (in dashboards)
                     </ul>
                 </li>
             </ul>
@@ -136,11 +136,11 @@
 
         <section>
             <h2>Sample project</h2>
-            <ul>
-                <li class="fragment">Have complete data of all US domestic flights from 2001
-                <li class="fragment">Process and store into Elasticsearch using Logstash
-                <li class="fragment">Visualize data using Kibana
-                <li class="fragment">Read slices of data to fuel standalone browser appplication
+            <ul class="fragment">
+                <li>Have complete data of all US domestic flights from 2001
+                <li>Process and store into Elasticsearch using Logstash
+                <li>Visualize data using Kibana
+                <li>Read slices of data to fuel standalone browser appplication
             </ul>
         </section>
 
@@ -158,11 +158,11 @@
                 allows for easy administration and introspection
                 <li class="fragment">Installation
                     <ul>
-                        <li class="fragment">
+                        <li>
                             <a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/installation.html" target="_blank">
                                 Guide</a>
-                        <li class="fragment"><code>sudo bin/plugin install lmenezes/elasticsearch-kopf/2.x</code>
-                        <li class="fragment"><code>open http://localhost:9200/_plugin/kopf</code>
+                        <li><code>sudo bin/plugin install lmenezes/elasticsearch-kopf/2.x</code>
+                        <li><code>open http://localhost:9200/_plugin/kopf</code>
                     </ul>
                 </li>
             </ul>
@@ -175,16 +175,20 @@
 
         <section>
             <h3>Cluster</h3>
-            <p>Group of nodes grouped under cluster name</p>
-            <img src="screenshot_cluster.png" height="400">
-            <p>There always is one master node</p>
+            <div class="fragment">
+                <p>nodes grouped under cluster name</p>
+                <img src="screenshot_cluster.png" height="400">
+                <p>There always is one master node</p>
+            </div>
         </section>
 
         <section>
             <h3>Node</h3>
-            <p>Simple Elasticsearch instance</p>
-            <img src="screenshot_nodes.png" height="400">
-            <p>Coordinates access to shards</p>
+            <div class="fragment">
+                <p>Simple Elasticsearch instance</p>
+                <img src="screenshot_nodes.png" height="400">
+                <p>Coordinates access to shards</p>
+            </div>
         </section>
 
         <!--<section>-->
@@ -210,16 +214,39 @@
 
         <section>
             <h3>Index</h3>
-            <p>logical grouping over shards</p>
-            <img src="screenshot_indices.png" height="400">
+            <div class="fragment">
+                <p>logical grouping over shards</p>
+                <img src="screenshot_indices.png" height="400">
+            </div>
         </section>
 
         <section>
             <h3>Shard</h3>
-            <p>part of an index</p>
-            <p>can be distributed over many nodes for failover or performance</p>
-            <img src="screenshot_shards.png" height="300">
-            <p>technically a Lucene index</p>
+            <div class="fragment">
+                <p>part of an index</p>
+                <p>can be distributed over many nodes for failover or performance</p>
+                <img src="screenshot_shards.png" height="300">
+                <p>technically a Lucene index</p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Unhappy state</h3>
+            <div class="fragment">
+                <p>number of replicas can be set per index</p>
+                <p>1 for our example</p>
+                <img src="screenshot_not_enough_nodes.png" height="300">
+                <p>if you have only one node, Elasticsearch is not happy</p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Recovering</h3>
+            <div class="fragment">
+                <p>you need at least two nodes</p>
+                <img src="screenshot_recovering.png" height="300">
+                <p>replicated shards initializing properly</p>
+            </div>
         </section>
 
         <section>
@@ -264,24 +291,26 @@ PUT /megacorp/employee/1
 
         <section>
             <h3>Sense - Making low level queries</h3>
-            <p>REST calls returning JSON</p>
+            <p>Looking at our example using REST calls returning JSON</p>
             <a href="http://localhost:5601/app/sense" target="_blank">
-                <img src="screenshot_sense.png" height="500">
+                <img src="screenshot_sense.png" height="400">
             </a>
+            <p><code>GET expo2009_airline/flight/_search</code></p>
         </section>
 
         <section>
             <h3>Can Elasticsearch replace my relational database?</h3>
             <ul>
+                <li class="fragment">Kibana uses Elasticsearch in that way
                 <li class="fragment">You might not always need full text indices
                 <li class="fragment">Writing (indexing) takes a lot of time
                 <li class="fragment">Relational databases are great when you need joins
                 <li class="fragment"><a target="_blank" href="https://aphyr.com/posts/323-call-me-maybe-elasticsearch-1-5-0">
                 Elasticsearch might lose data</a>
-                <ul>
-                    <li class="fragment">network partitions into two intersecting components
-                    <li class="fragment">two nodes failing around the same time
-                    <li class="fragment">even more scenarios
+                <ul class="fragment">
+                    <li>network partitions into two intersecting components
+                    <li>two nodes failing around the same time
+                    <li>even more scenarios
                 </ul>
                 </li>
                 <li class="fragment"><a target="_blank"
@@ -296,10 +325,11 @@ PUT /megacorp/employee/1
             </ul>
         </section>
 
-        <section>
-            <h2>Recommendation</h2>
-            <p class="fragment">Use ElasticSearch when data does not change over time and is used only for searching. Use as secondary storage. Data might get lost.</p>
-        </section>
+        <!--<section>-->
+            <!--<h2>Recommendation</h2>-->
+            <!--<p class="fragment">Use ElasticSearch when data does not change over time and is used only for searching.</p>-->
+            <!--<p class="fragment">Use as secondary storage. Data might get lost.</p>-->
+        <!--</section>-->
 
 
         <section>
@@ -309,7 +339,7 @@ PUT /megacorp/employee/1
                 <li class="fragment">you configure all this in a single import file
                 <li class="fragment">you run logstash using that file
                 <li class="fragment">e.g. <code>./bin/logstash -f expo2009_airline.conf</code>
-                <li class="fragment">options:
+                <li class="fragment">alternatives:
                     <ul class="fragment">
                         <li>Pandas
                         <li>Graylog
@@ -327,6 +357,7 @@ PUT /megacorp/employee/1
 
         <section>
             <h2>Logstash - Input</h2>
+            <div class="fragment">
             <pre><code data-trim>
 input {
       file {
@@ -339,9 +370,14 @@ input {
       }
 }
             </code></pre>
+                <p><small><a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html" target="_blank">
+                    https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html</a></small></p>
+
+            </div>
         </section>
         <section>
             <h2>Logstash - Output</h2>
+            <div class="fragment">
             <pre><code data-trim>
 output {
     elasticsearch {
@@ -352,6 +388,10 @@ output {
     }
 }
             </code></pre>
+            <p><small><a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html" target="_blank">
+                https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html</a></small></p>
+
+                </div>
         </section>
         <section>
             <h2>Filtering - CSV</h2>
@@ -406,37 +446,100 @@ mutate { convert => { "Diverted" => "boolean" } }
 
         <section>
             <h2>Kibana</h2>
-            <ul>
-                <li class="fragment">generic frontend
-                <li class="fragment">browser based
-                <li class="fragment">allows for dashboards
-                <li class="fragment">also allows to make arbitrary adhoc queries
+            <ul class="fragment">
+                <li>generic frontend
+                <li>browser based
+                <li>allows for dashboards
+                <li>also allows to make arbitrary adhoc queries
             </ul>
         </section>
 
         <section>
             <h3>Discover Data</h3>
-            <p>using adhoc queries</p>
-            <a href="http://localhost:5601/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:'2001-08-31T22:00:00.000Z',mode:quick,to:'2001-09-30T22:00:00.000Z'))&_a=(columns:!(Cancelled,Origin,Dest,UniqueCarrier),filters:!(),index:expo2009_airline,interval:h,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',desc),vis:(aggs:!((params:(field:ArrDelay,orderBy:'2',size:20),schema:segment,type:terms),(id:'2',schema:metric,type:count)),type:histogram))&indexPattern=expo2009_airline&type=histogram" target="_blank">
-                <img src="screenshot_kibana_discover.png">
+            <div class="fragment">
+                <p>using adhoc queries</p>
+                <a href="http://localhost:5601/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:'2001-08-31T22:00:00.000Z',mode:quick,to:'2001-09-30T22:00:00.000Z'))&_a=(columns:!(Cancelled,Origin,Dest,UniqueCarrier),filters:!(),index:expo2009_airline,interval:h,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',desc),vis:(aggs:!((params:(field:ArrDelay,orderBy:'2',size:20),schema:segment,type:terms),(id:'2',schema:metric,type:count)),type:histogram))&indexPattern=expo2009_airline&type=histogram" target="_blank">
+                    <img src="screenshot_kibana_discover.png">
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h3>Demo</h3>
+            <p class="fragment">Flights from LA or Newyark to Denver or Clinton between September 10th 2001, 11:12 and 15:38?</p>
+            <a class="fragment" href="http://localhost:5601/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:'2001-09-10T09:12:45.957Z',mode:absolute,to:'2001-09-10T13:38:17.872Z'))&_a=(columns:!(_type,_index,Dest,Origin),filters:!(),index:expo2009_airline,interval:auto,query:(query_string:(analyze_wildcard:!t,query:'Dest%3DLAX,EWR%20AND%20Origin%3DDEN,CLT')),sort:!('@timestamp',desc),vis:(aggs:!((params:(field:_type,orderBy:'2',size:20),schema:segment,type:terms),(id:'2',schema:metric,type:count)),type:histogram))&indexPattern=expo2009_airline&type=histogram" target="_blank">
+                <img src="screenshot_kibana_discover2.png" height="300">
             </a>
         </section>
 
         <section>
             <h3>Flights Dashboard #1</h3>
-            <a href="http://localhost:5601/app/kibana#/dashboard/Flights" target="_blank">
-                <img src="screenshot_kibana_dashboard.png" height="400">
-            </a>
-            <p>Clicks trigger requests, responses update grafics</p>
+            <div class="fragment">
+                <a href="http://localhost:5601/app/kibana#/dashboard/Flights" target="_blank">
+                    <img src="screenshot_kibana_dashboard.png" height="400">
+                </a>
+                <p>Clicks trigger requests, responses update grafics</p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Demo</h3>
+            <div class="fragment">
+                <p>Adding a Departure Delay Barchart</p>
+                <a href="http://localhost:5601/app/kibana#/visualize" target="_blank">
+                    <img src="screenshot_arrival_barchart.png">
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h3>Benefits</h3>
+            <ul class="fragment">
+                <li>works on any size of data
+                <li>with a little practice very easy to do
+                <li>provides widgets out of the box
+            </ul>
+        </section>
+
+        <section>
+            <h3>Drawbacks</h3>
+            <ul class="fragment">
+                <li>limited in layout and widgets
+                <li>each update takes time
+                <li>smooth and continuous interaction limited
+            </ul>
         </section>
 
         <section>
             <h3>Flights Dashboard #2</h3>
-            <h4>Dumping 400,000 data sets</h4>
-            <a href="code/dc-911-es.html" target="_blank">
-                <img src="screenshot_dc.png" height="400">
-            </a>
-            <p>All data offline, filtered in browser</p>
+            <div class="fragment">
+                <h4>Dumping 400,000 data sets</h4>
+                <a href="code/dc-911-es.html" target="_blank">
+                    <img src="screenshot_dc.png" height="400">
+                </a>
+                <p>All data offline, filtered in browser</p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Accessing Elasticsearch via REST</h3>
+            <p class="fragment">Problem: Making data calls from a web browser is not allowed because of Same-Origin-Policy (SOP)</p>
+            <p class="fragment">Option 1: Use a (relay) web server to make calls to Elasticsearch</p>
+            <p class="fragment">Option 2: <a target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html">
+                enable Cross-Origin Resource Sharing (CORS)</a> to allow direct access from browser</p>
+            <pre class="fragment"><code data-trim class="javascript">
+http.cors.enabled: true
+http.cors.allow-origin: '*'
+            </code></pre>
+        </section>
+
+        <section>
+            <h3>Network, Timing, Data Sizes</h3>
+            <div class="fragment">
+                <a href="code/dc-911-es.html" target="_blank">
+                    <img src="screenshot_network_cors.png">
+                </a>
+            </div>
         </section>
 
         <section>

@@ -66,7 +66,7 @@ function load(callback) {
     const query = createQuery(fields);
 
     // be sure to enable CORS in elasticsearch
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
+    // https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html;
 
     fetch('http://localhost:9200/expo2009_airline/_search', {
         method: 'POST',
